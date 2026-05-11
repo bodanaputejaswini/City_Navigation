@@ -1,0 +1,518 @@
+/* =============================================
+   Map / Result Page Styles
+   ============================================= */
+
+/* ---------- Map Container ---------- */
+.map-container {
+    display: flex;
+    height: calc(100vh - var(--navbar-height));
+    overflow: hidden;
+}
+
+/* ---------- Graph Canvas ---------- */
+.graph-canvas-wrapper {
+    flex: 1;
+    position: relative;
+    background: var(--bg-primary);
+    overflow: hidden;
+}
+
+.graph-svg {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+.graph-svg:active {
+    cursor: grabbing;
+}
+
+/* ---------- Graph Toolbar ---------- */
+.graph-toolbar {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    z-index: 10;
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.35rem;
+    box-shadow: var(--shadow-md);
+}
+
+.toolbar-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.toolbar-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.toolbar-btn.active {
+    background: rgba(59,130,246,0.15);
+    color: var(--accent-primary);
+}
+
+.toolbar-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.15rem 0.3rem;
+}
+
+/* ---------- Graph Legend ---------- */
+.graph-legend {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 10;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot.source { background: var(--node-source); box-shadow: 0 0 6px var(--node-source); }
+.legend-dot.dest { background: var(--node-dest); box-shadow: 0 0 6px var(--node-dest); }
+.legend-dot.path { background: var(--edge-path); box-shadow: 0 0 6px var(--edge-path); }
+.legend-dot.visited { background: var(--node-visited); }
+.legend-dot.traffic-low { background: var(--traffic-low); }
+.legend-dot.traffic-med { background: var(--traffic-med); }
+.legend-dot.traffic-high { background: var(--traffic-high); }
+
+/* ---------- Route Panel ---------- */
+.route-panel {
+    width: 380px;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform var(--transition-normal);
+}
+
+.route-panel.collapsed {
+    transform: translateX(100%);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panel-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.panel-close-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--text-tertiary);
+    transition: all var(--transition-fast);
+}
+
+.panel-close-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+
+/* No Route Message */
+.no-route-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-tertiary);
+    gap: 1rem;
+}
+
+.no-route-message p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ---------- Route Info ---------- */
+.route-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.route-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.8rem 0.4rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    gap: 0.15rem;
+}
+
+.route-stat-icon {
+    font-size: 1.3rem;
+}
+
+.route-stat-value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+}
+
+.route-stat-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.route-algo-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radius-full);
+    background: rgba(139,92,246,0.12);
+    color: var(--accent-secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+}
+
+.route-steps-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+}
+
+/* ---------- Route Steps List ---------- */
+.route-steps-list {
+    list-style: none;
+    position: relative;
+    padding-left: 1.4rem;
+}
+
+.route-steps-list::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent-success), var(--accent-primary), var(--accent-danger));
+    border-radius: 2px;
+}
+
+.route-step {
+    position: relative;
+    padding: 0.5rem 0;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    animation: stepFadeIn 0.3s ease-out both;
+}
+
+.route-step::before {
+    content: '';
+    position: absolute;
+    left: -1.4rem;
+    top: 50%;
+    transform: translate(-50%, -50%) translateX(6px);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2.5px solid var(--accent-primary);
+    z-index: 1;
+}
+
+.route-step:first-child::before {
+    border-color: var(--accent-success);
+    background: var(--accent-success);
+}
+
+.route-step:last-child::before {
+    border-color: var(--accent-danger);
+    background: var(--accent-danger);
+}
+
+.route-step .step-distance {
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+@keyframes stepFadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Alt routes */
+.alt-routes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.alt-route-card {
+    padding: 0.7rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.alt-route-card:hover {
+    border-color: var(--accent-primary);
+    background: rgba(59,130,246,0.05);
+}
+
+.alt-route-path {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+}
+
+.alt-route-dist {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+}
+
+.alt-none {
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* ---------- D3 Graph Styles ---------- */
+
+/* Edges */
+.graph-svg .edge-line {
+    stroke: var(--edge-default);
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: stroke var(--transition-fast), stroke-width var(--transition-fast);
+}
+
+.graph-svg .edge-line.path-edge {
+    stroke: var(--edge-path);
+    stroke-width: 4;
+    filter: drop-shadow(0 0 6px var(--edge-path));
+}
+
+.graph-svg .edge-line.alt-edge {
+    stroke: var(--edge-alt);
+    stroke-width: 2;
+    stroke-dasharray: 6 4;
+}
+
+.graph-svg .edge-line.visited-edge {
+    stroke: var(--node-visited);
+    stroke-width: 2.5;
+    opacity: 0.6;
+}
+
+.graph-svg .edge-line.traffic-low { stroke: var(--traffic-low); }
+.graph-svg .edge-line.traffic-med { stroke: var(--traffic-med); }
+.graph-svg .edge-line.traffic-high { stroke: var(--traffic-high); }
+
+/* Edge labels */
+.graph-svg .edge-label {
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--text-secondary);
+    text-anchor: middle;
+    pointer-events: none;
+    user-select: none;
+}
+
+.graph-svg .edge-label-bg {
+    fill: var(--bg-primary);
+    rx: 4;
+    ry: 4;
+}
+
+/* Edge arrow markers */
+.graph-svg .edge-arrow {
+    fill: var(--edge-default);
+}
+
+.graph-svg .edge-arrow.path-arrow {
+    fill: var(--edge-path);
+}
+
+/* Nodes */
+.graph-svg .node-circle {
+    fill: var(--node-default);
+    stroke: var(--bg-primary);
+    stroke-width: 3;
+    cursor: pointer;
+    transition: r 0.15s ease, fill 0.15s ease;
+}
+
+.graph-svg .node-circle:hover {
+    r: 18;
+    filter: drop-shadow(0 0 8px var(--node-default));
+}
+
+.graph-svg .node-circle.source-node {
+    fill: var(--node-source);
+    filter: drop-shadow(0 0 10px var(--node-source));
+}
+
+.graph-svg .node-circle.dest-node {
+    fill: var(--node-dest);
+    filter: drop-shadow(0 0 10px var(--node-dest));
+}
+
+.graph-svg .node-circle.visited-node {
+    fill: var(--node-visited);
+    opacity: 0.8;
+}
+
+.graph-svg .node-circle.path-node {
+    fill: var(--edge-path);
+    filter: drop-shadow(0 0 8px var(--edge-path));
+}
+
+/* Node labels */
+.graph-svg .node-label {
+    font-size: 11px;
+    font-weight: 700;
+    fill: var(--text-primary);
+    text-anchor: middle;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Node pulse animation */
+.graph-svg .node-pulse {
+    fill: none;
+    stroke: var(--node-default);
+    stroke-width: 2;
+    opacity: 0;
+    animation: nodePulse 2s ease-out infinite;
+}
+
+.graph-svg .node-pulse.source-pulse {
+    stroke: var(--node-source);
+}
+
+.graph-svg .node-pulse.dest-pulse {
+    stroke: var(--node-dest);
+}
+
+@keyframes nodePulse {
+    0% { r: 14; opacity: 0.6; }
+    100% { r: 30; opacity: 0; }
+}
+
+/* Path animation */
+.graph-svg .edge-line.path-animated {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawPath 1.5s ease-in-out forwards;
+}
+
+@keyframes drawPath {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Tooltip */
+.graph-tooltip {
+    position: absolute;
+    padding: 0.5rem 0.8rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+    pointer-events: none;
+    z-index: 100;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.graph-tooltip.visible {
+    opacity: 1;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .map-container {
+        flex-direction: column;
+    }
+
+    .graph-canvas-wrapper {
+        height: 55vh;
+    }
+
+    .route-panel {
+        width: 100%;
+        height: 45vh;
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .graph-legend {
+        gap: 0.5rem;
+        font-size: 0.65rem;
+    }
+}

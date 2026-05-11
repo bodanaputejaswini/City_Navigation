@@ -1,0 +1,209 @@
+/* =============================================
+   Shared / Component Styles
+   ============================================= */
+
+/* ---------- Input with Mic Button ---------- */
+.input-with-mic {
+    display: flex;
+    gap: 0.4rem;
+    align-items: stretch;
+}
+
+.input-with-mic .select-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.mic-btn {
+    width: 40px;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    border: 1.5px solid var(--border-input);
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.mic-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: var(--accent-danger);
+    color: var(--accent-danger);
+}
+
+.mic-btn.listening {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: var(--accent-danger);
+    color: var(--accent-danger);
+    animation: micPulse 1s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+/* ---------- Voice Command Button ---------- */
+.btn-voice {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(139,92,246,0.08));
+    border: 1.5px dashed var(--border-input);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.btn-voice:hover {
+    background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(139,92,246,0.15));
+    border-color: var(--accent-danger);
+    color: var(--text-primary);
+}
+
+.btn-voice.listening {
+    background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(139,92,246,0.2));
+    border-color: var(--accent-danger);
+    border-style: solid;
+    color: var(--accent-danger);
+    animation: micPulse 1s ease-in-out infinite;
+}
+
+.btn-voice svg {
+    flex-shrink: 0;
+}
+
+/* ---------- Voice Status Indicator ---------- */
+.voice-status {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--radius-md);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent-danger);
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.voice-pulse-ring {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-danger);
+    animation: voicePulseRing 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes voicePulseRing {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Voice Navigation Panel ---------- */
+.voice-nav-panel {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06));
+    border: 1px solid rgba(59,130,246,0.15);
+}
+
+.voice-nav-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.6rem;
+}
+
+.voice-nav-header .toggle-label.compact {
+    margin-left: auto;
+    font-size: 0.7rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-secondary);
+}
+
+.voice-nav-header .toggle-label.compact .toggle-switch {
+    width: 30px;
+    height: 18px;
+}
+
+.voice-nav-header .toggle-label.compact .toggle-switch::after {
+    width: 12px;
+    height: 12px;
+    top: 2px;
+    left: 2px;
+}
+
+.voice-nav-header .toggle-label.compact input:checked + .toggle-switch::after {
+    transform: translateX(12px);
+}
+
+.voice-current-instruction {
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    border: 1px solid var(--border-color);
+}
+
+.voice-nav-controls {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.voice-nav-controls .btn {
+    flex: 1;
+}
+
+/* ---------- Voice Active Step Highlight ---------- */
+.route-step.voice-active {
+    background: rgba(59,130,246,0.1);
+    border-radius: var(--radius-sm);
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    border-left: 3px solid var(--accent-primary);
+    margin-left: -0.4rem;
+}
+
+.route-step.voice-active::before {
+    border-color: var(--accent-primary) !important;
+    background: var(--accent-primary) !important;
+    box-shadow: 0 0 8px var(--accent-primary);
+}
+
+/* ---------- Route Summary Cards — 4 columns ---------- */
+.route-summary-cards {
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
+@media (max-width: 480px) {
+    .route-summary-cards {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}

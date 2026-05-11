@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="City Navigation System — Find the shortest path between locations using Dijkstra's algorithm with interactive graph visualization.">
+    <title>CityNav — Intelligent Route Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-brand">
+            <div class="logo-icon" id="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                    <path d="M2 12h20"/>
+                </svg>
+            </div>
+            <span class="logo-text">City<span class="accent">Nav</span></span>
+        </div>
+        <div class="navbar-links" id="navbar-links">
+            <a href="#" class="nav-link active" data-page="home" id="nav-home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Home
+            </a>
+            <a href="#" class="nav-link" data-page="map" id="nav-map">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                    <line x1="8" y1="2" x2="8" y2="18"/>
+                    <line x1="16" y1="6" x2="16" y2="22"/>
+                </svg>
+                Map
+            </a>
+            <a href="#" class="nav-link" data-page="admin" id="nav-admin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+                Admin
+            </a>
+        </div>
+        <div class="navbar-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <main class="page active" id="page-home">
+        <div class="hero-section">
+            <div class="hero-bg-animation" id="hero-bg-animation"></div>
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Powered by Dijkstra's Algorithm
+                </div>
+                <h1 class="hero-title">
+                    Navigate Your City<br>
+                    <span class="gradient-text">Intelligently</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Find the optimal route between any two locations using advanced graph algorithms. 
+                    Visualize paths, compare algorithms, and explore your city like never before.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-card" id="stat-nodes">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Locations</span>
+                    </div>
+                    <div class="stat-card" id="stat-edges">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Roads</span>
+                    </div>
+                    <div class="stat-card" id="stat-algo">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Algorithms</span>
+                    </div>
+                </div>
+            </div>
+            <div class="path-finder-card" id="path-finder-card">
+                <div class="card-header">
+                    <h2>Find Your Route</h2>
+                    <p>Select source & destination to compute optimal path</p>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label for="source-select">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <circle cx="12" cy="10" r="3"/>
+                                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+                            </svg>
+                            Source
+                        </label>
+                        <div class="input-with-mic">
+                            <select id="source-select" class="select-input">
+                                <option value="">Choose starting point...</option>
+                            </select>
+                            <button class="mic-btn" id="mic-source-btn" aria-label="Speak source location" title="Speak source location">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                    <line x1="12" y1="19" x2="12" y2="23"/>
+                                    <line x1="8" y1="23" x2="16" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swap-btn-container">
+                        <button class="swap-btn" id="swap-btn" aria-label="Swap source and destination">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                <polyline points="7 16 3 12 7 8"/>
+                                <line x1="21" y1="12" x2="3" y2="12"/>
+                                <polyline points="17 8 21 12 17 16"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <label for="dest-select">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            Destination
+                        </label>
+                        <div class="input-with-mic">
+                            <select id="dest-select" class="select-input">
+                                <option value="">Choose destination...</option>
+                            </select>
+                            <button class="mic-btn" id="mic-dest-btn" aria-label="Speak destination" title="Speak destination">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                    <line x1="12" y1="19" x2="12" y2="23"/>
+                                    <line x1="8" y1="23" x2="16" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="algorithm-selector">
+                        <label class="algo-label">Algorithm</label>
+                        <div class="algo-options">
+                            <label class="algo-option active" id="algo-dijkstra-label">
+                                <input type="radio" name="algorithm" value="dijkstra" checked id="algo-dijkstra">
+                                <span class="algo-chip">
+                                    <span class="algo-dot"></span>
+                                    Dijkstra
+                                </span>
+                            </label>
+                            <label class="algo-option" id="algo-bfs-label">
+                                <input type="radio" name="algorithm" value="bfs" id="algo-bfs">
+                                <span class="algo-chip">
+                                    <span class="algo-dot"></span>
+                                    BFS
+                                </span>
+                            </label>
+                            <label class="algo-option" id="algo-dfs-label">
+                                <input type="radio" name="algorithm" value="dfs" id="algo-dfs">
+                                <span class="algo-chip">
+                                    <span class="algo-dot"></span>
+                                    DFS
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="find-path-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                            Find Path
+                        </button>
+                        <button class="btn btn-secondary" id="reset-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <polyline points="1 4 1 10 7 10"/>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                    <button class="btn btn-voice" id="voice-command-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                        Voice Command — "Go from Airport to Mall"
+                    </button>
+                    <div class="voice-status hidden" id="voice-status">
+                        <div class="voice-pulse-ring"></div>
+                        <span id="voice-status-text">Listening...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Features Section -->
+        <section class="features-section" id="features-section">
+            <h2 class="section-title">How It Works</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+                            <circle cx="12" cy="10" r="3"/>
+                            <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+                        </svg>
+                    </div>
+                    <h3>Select Locations</h3>
+                    <p>Choose your source and destination from the available city locations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                            <path d="M9 9h6v6H9z"/>
+                            <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
+                        </svg>
+                    </div>
+                    <h3>Compute Path</h3>
+                    <p>Our engine runs Dijkstra, BFS, or DFS to find the optimal route.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+                            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                            <line x1="8" y1="2" x2="8" y2="18"/>
+                            <line x1="16" y1="6" x2="16" y2="22"/>
+                        </svg>
+                    </div>
+                    <h3>Visualize Route</h3>
+                    <p>See the path highlighted on an interactive graph with distance details.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== MAP PAGE ==================== -->
+    <main class="page" id="page-map">
+        <div class="map-container">
+            <div class="graph-canvas-wrapper" id="graph-canvas-wrapper">
+                <div class="graph-toolbar" id="graph-toolbar">
+                    <button class="toolbar-btn" id="zoom-in-btn" aria-label="Zoom in" title="Zoom In">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            <line x1="11" y1="8" x2="11" y2="14"/>
+                            <line x1="8" y1="11" x2="14" y2="11"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="zoom-out-btn" aria-label="Zoom out" title="Zoom Out">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            <line x1="8" y1="11" x2="14" y2="11"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="zoom-reset-btn" aria-label="Reset zoom" title="Reset View">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                        </svg>
+                    </button>
+                    <div class="toolbar-divider"></div>
+                    <button class="toolbar-btn" id="traffic-toggle-btn" aria-label="Toggle traffic" title="Toggle Traffic Simulation">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <rect x="6" y="2" width="12" height="20" rx="2"/>
+                            <circle cx="12" cy="7" r="1.5"/>
+                            <circle cx="12" cy="12" r="1.5"/>
+                            <circle cx="12" cy="17" r="1.5"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="animate-toggle-btn" aria-label="Toggle animation" title="Toggle Path Animation">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                    </button>
+                    <div class="toolbar-divider"></div>
+                    <button class="toolbar-btn" id="voice-nav-btn" aria-label="Toggle voice navigation" title="Voice Navigation">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="stop-voice-btn" aria-label="Stop voice" title="Stop Speaking" style="display:none">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <rect x="6" y="4" width="4" height="16"/>
+                            <rect x="14" y="4" width="4" height="16"/>
+                        </svg>
+                    </button>
+                </div>
+                <svg id="graph-svg" class="graph-svg"></svg>
+                <div class="graph-legend" id="graph-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot source"></span> Source
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot dest"></span> Destination
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot path"></span> Shortest Path
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot visited"></span> Visited
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot traffic-low"></span> Low Traffic
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot traffic-med"></span> Medium
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot traffic-high"></span> High Traffic
+                    </div>
+                </div>
+            </div>
+            <aside class="route-panel" id="route-panel">
+                <div class="panel-header">
+                    <h2>Route Details</h2>
+                    <button class="panel-close-btn" id="panel-close-btn" aria-label="Close panel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="panel-body" id="panel-body">
+                    <div class="no-route-message" id="no-route-msg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+                            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                            <line x1="8" y1="2" x2="8" y2="18"/>
+                            <line x1="16" y1="6" x2="16" y2="22"/>
+                        </svg>
+                        <p>Select source & destination on the Home page to view route details.</p>
+                    </div>
+                    <div class="route-info hidden" id="route-info">
+                        <div class="route-summary-cards">
+                            <div class="route-stat-card">
+                                <span class="route-stat-icon">📏</span>
+                                <span class="route-stat-value" id="route-distance">—</span>
+                                <span class="route-stat-label">Distance (km)</span>
+                            </div>
+                            <div class="route-stat-card">
+                                <span class="route-stat-icon">⏱️</span>
+                                <span class="route-stat-value" id="route-time">—</span>
+                                <span class="route-stat-label">ETA</span>
+                            </div>
+                            <div class="route-stat-card">
+                                <span class="route-stat-icon">🚗</span>
+                                <span class="route-stat-value" id="route-speed">40</span>
+                                <span class="route-stat-label">Speed (km/h)</span>
+                            </div>
+                            <div class="route-stat-card">
+                                <span class="route-stat-icon">🔍</span>
+                                <span class="route-stat-value" id="route-visited">—</span>
+                                <span class="route-stat-label">Nodes Visited</span>
+                            </div>
+                        </div>
+                        <!-- Voice Navigation Panel -->
+                        <div class="voice-nav-panel" id="voice-nav-panel">
+                            <div class="voice-nav-header">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                                </svg>
+                                <span>Voice Navigation</span>
+                                <label class="toggle-label compact">
+                                    <input type="checkbox" id="voice-auto-play" checked>
+                                    <span class="toggle-switch"></span>
+                                    Auto
+                                </label>
+                            </div>
+                            <div class="voice-current-instruction" id="voice-current-instruction">
+                                Click "Play Voice" to start guidance
+                            </div>
+                            <div class="voice-nav-controls">
+                                <button class="btn btn-sm btn-primary" id="play-voice-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Play Voice
+                                </button>
+                                <button class="btn btn-sm btn-secondary" id="stop-voice-nav-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                        <rect x="6" y="4" width="4" height="16"/>
+                                        <rect x="14" y="4" width="4" height="16"/>
+                                    </svg>
+                                    Stop
+                                </button>
+                            </div>
+                        </div>
+                        <div class="route-algo-badge" id="route-algo-badge">Dijkstra</div>
+                        <h3 class="route-steps-title">Route Steps</h3>
+                        <ol class="route-steps-list" id="route-steps-list"></ol>
+                        <h3 class="route-steps-title" style="margin-top:1.2rem;">Alternative Routes</h3>
+                        <div class="alt-routes-list" id="alt-routes-list">
+                            <p class="alt-none">No alternative routes found.</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- ==================== ADMIN PAGE ==================== -->
+    <main class="page" id="page-admin">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1>Graph Administration</h1>
+                <p>Add, remove, and manage city locations and roads.</p>
+            </div>
+            <div class="admin-grid">
+                <!-- Nodes Management -->
+                <div class="admin-card" id="admin-nodes-card">
+                    <div class="admin-card-header">
+                        <h2>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                <circle cx="12" cy="10" r="3"/>
+                                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+                            </svg>
+                            Locations
+                        </h2>
+                        <span class="admin-count" id="admin-node-count">0</span>
+                    </div>
+                    <form class="admin-form" id="add-node-form">
+                        <div class="form-row">
+                            <input type="text" id="node-name-input" placeholder="Location name" class="form-input" required>
+                        </div>
+                        <div class="form-row two-col">
+                            <input type="number" id="node-x-input" placeholder="X pos" class="form-input" required>
+                            <input type="number" id="node-y-input" placeholder="Y pos" class="form-input" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm" id="add-node-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Location
+                        </button>
+                    </form>
+                    <div class="admin-list-container">
+                        <ul class="admin-list" id="nodes-list"></ul>
+                    </div>
+                </div>
+                <!-- Edges Management -->
+                <div class="admin-card" id="admin-edges-card">
+                    <div class="admin-card-header">
+                        <h2>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                            Roads
+                        </h2>
+                        <span class="admin-count" id="admin-edge-count">0</span>
+                    </div>
+                    <form class="admin-form" id="add-edge-form">
+                        <div class="form-row two-col">
+                            <select id="edge-source-select" class="form-input" required>
+                                <option value="">From...</option>
+                            </select>
+                            <select id="edge-dest-select" class="form-input" required>
+                                <option value="">To...</option>
+                            </select>
+                        </div>
+                        <div class="form-row two-col">
+                            <input type="number" id="edge-weight-input" placeholder="Distance (km)" class="form-input" required min="1">
+                            <label class="toggle-label" id="oneway-toggle-label">
+                                <input type="checkbox" id="edge-oneway-input">
+                                <span class="toggle-switch"></span>
+                                One-way
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm" id="add-edge-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Road
+                        </button>
+                    </form>
+                    <div class="admin-list-container">
+                        <ul class="admin-list" id="edges-list"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-actions">
+                <button class="btn btn-secondary" id="reset-graph-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <polyline points="1 4 1 10 7 10"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                    Reset to Default
+                </button>
+                <button class="btn btn-secondary" id="export-graph-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Export JSON
+                </button>
+                <button class="btn btn-secondary" id="import-graph-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Import JSON
+                </button>
+                <input type="file" id="import-file-input" accept=".json" style="display:none;">
+            </div>
+            <div class="admin-preview">
+                <h2>Live Graph Preview</h2>
+                <svg id="admin-graph-svg" class="admin-graph-svg graph-svg"></svg>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <p>Computing optimal route...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/cityData.js"></script>
+    <script src="js/trafficSimulation.js"></script>
+    <script src="js/visualization.js"></script>
+    <script src="js/voice.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
